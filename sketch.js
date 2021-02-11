@@ -10,6 +10,8 @@ let columnImg;
 let rowImg;
 let groundImg;
 let backgroundImg;
+let slingImg1;
+let slingImg2;
 
 function preload(){
   birdImg=loadImage('images/bird.png');
@@ -17,6 +19,8 @@ function preload(){
   rowImg  = loadImage('images/beam.png');
   groundImg = loadImage('images/ground.png');
   backgroundImg = loadImage('images/back2.png');
+  slingImg1= loadImage('images/sling1.png');
+  slingImg2= loadImage('images/sling2.png');
 }
 
 function setup() {
@@ -77,6 +81,9 @@ function draw() {
   for(let i=0;i<boxes.length;i++){
     boxes[i].show()
   }
+  image(slingImg1,250,560,25,125);
+  // image(slingImg2,250,575,);
   bird.show();
+  image(slingImg2,230,560,28.125,78.125);
   slingshot.show();
 }
