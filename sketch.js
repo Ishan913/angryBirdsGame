@@ -15,6 +15,7 @@ let slingImg2;
 let mode;
 let backImgHome;
 let playImg;
+let Second;
 
 function preload() {
   birdImg = loadImage('images/bird.png');
@@ -24,11 +25,12 @@ function preload() {
   backgroundImg = loadImage('images/back2.png');
   slingImg1 = loadImage('images/sling1.png');
   slingImg2 = loadImage('images/sling2.png');
-  backImgHome = loadImage('images/homebg.jpg')
+  backImgHome = loadImage('images/homebg.jpg');
+  playImg = loadImage('images/playButton.png')
 }
 
 function setup() {
-  mode=0;
+  mode = 0;
   engine = Engine.create();
   world = engine.world;
 
@@ -40,7 +42,6 @@ function setup() {
   level1();
 
   bird = new Bird(250, 575, 25);
-
   slingshot = new Slingshot(250, 575, bird.body);
 
   const canvasMouse = Mouse.create(canvas.elt);
@@ -51,27 +52,9 @@ function setup() {
   mConstraint = MouseConstraint.create(engine, options);
 
   World.add(world, mConstraint);
-  
-}
+  // bird.mouseReleased(birdThrow);
 
-function keyPressed() {
-  if (mode == 1) {
-    if (key = ' ') {
-      World.remove(world, bird.body);
-      bird = new Bird(150, 300, 25);
-      slingshot.attach(bird.body);
-    }
-  }
 }
-
-function mouseReleased() {
-  if (mode == 1) {
-    setTimeout(() => {
-      slingshot.fly();
-    }, 80)
-  }
-}
-
 
 function level1() {
   boxes[0] = new ColumnBox(1000, 500, 19, 82);
@@ -88,8 +71,36 @@ function level1() {
   boxes[11] = new RowBox(1166, 300, 83, 21);
 }
 
-function draw() {
+function keyPressed() {
+  if (mode == 1) {
+    if (key = ' ') {
+      World.remove(world, bird.body);
+      bird = new Bird(250, 575, 25);
+      slingshot.attach(bird.body);
+    }
+  }
+}
 
+
+function mouseReleased() {
+  if (mode == 1 && Math.abs((second() - Second))>2) {
+    setTimeout(() => {
+      slingshot.fly();
+    }, 80)
+  }
+}
+
+function mousePressed() {
+  if (mode == 0) {
+    if (mouseX > 650 && mouseY > 375 && mouseX < 853 && mouseY < 475) {
+      Second = second();
+      mode = 1;
+    }
+  }
+}
+
+
+function draw() {
   if (mode == 0) {
     draw0();
   }
@@ -99,18 +110,10 @@ function draw() {
   }
 }
 
-function mousePressed(){
-  if (mode==0){
-    // if (mouseX<500 && mouseY<500){
-    //   mode=1;
-    // }
-  }
-}
-
 
 function draw0() {
   background(backImgHome);
-
+  image(playImg, 650, 375, 203, 100); //w/h ratio 2.03
 }
 
 function draw1() {

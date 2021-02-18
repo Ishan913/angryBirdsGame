@@ -12,7 +12,7 @@ class Bird {
         translate(pos.x, pos.y);
         rotate(angle);
         imageMode(CENTER);
-        image(birdImg, 0, 0, this.r*2, this.r*2);
+        image(birdImg, 0, 0, this.r * 2, this.r * 2);
         pop();
     }
 }
