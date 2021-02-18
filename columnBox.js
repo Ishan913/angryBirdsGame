@@ -1,4 +1,9 @@
 class ColumnBox extends Box {
+
+    constructor(x,y,w,h){
+        super(x,y,w,h);
+    }
+
     show(){
         const pos = this.body.position;
         const angle = this.body.angle;

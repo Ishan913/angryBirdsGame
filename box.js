@@ -1,6 +1,16 @@
 class Box {
     constructor(x, y, w, h) {
-        this.body = Matter.Bodies.rectangle(x, y, w, h);
+        this.body = Matter.Bodies.rectangle(x, y, w, h);    
+        // const option = {
+        //     position:{
+        //         x:x,
+        //         y:y
+        //     },
+        //     w:w,
+        //     h:h,
+        //     stiffness:.5
+        // }
+        // this.body = Matter.Constraint.create(option);
         Matter.World.add(world, this.body);
         this.x=x;
         this.y=y;
