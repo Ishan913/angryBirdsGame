@@ -1,6 +1,9 @@
 let { Engine, World, Bodies, MouseConstraint, Mouse, Constraint } = Matter;
 let ground;
-const boxes = [];
+// let width=window.innerWidth;
+// let height=window.innerHeight;
+// console.log(width,height)
+let boxes = [];
 let bird;
 let world, engine;
 let mConstraint;
@@ -22,6 +25,7 @@ let l2Img;
 let l3Img;
 let backImg;
 let birds = [];
+let ReleasedTime;
 
 
 function preload() {
@@ -46,7 +50,7 @@ function setup() {
   engine = Engine.create();
   world = engine.world;
 
-  const canvas = createCanvas(windowWidth, windowHeight);
+  const canvas = createCanvas(1536, 754);
   ground = new Ground(width / 2, height - 75, width, 50);
   // for (let i=0;i<3;i++){
   //   boxes[i] = new ColumnBox(450, 300-i*75, 50, 75);
@@ -70,23 +74,73 @@ function level1() {
     World.remove(world, bird.body);
   }
   bird = new Bird(250, 575, 25);
-  for (let i = 0; i < boxes.length; i++) {
-    World.remove(world, boxes[i].body);
-  }
-  // World.remove(world, bird.body);
   slingshot = new Slingshot(250, 575, bird.body);
-  boxes[0] = new ColumnBox(1000, 500, 19, 82);
-  boxes[1] = new ColumnBox(1083, 500, 19, 82);
-  boxes[2] = new RowBox(1041, 450, 83, 21);
-  boxes[3] = new ColumnBox(1166, 500, 19, 82);
-  boxes[4] = new ColumnBox(1249, 500, 19, 82);
-  boxes[5] = new RowBox(1124, 450, 83, 21);
-  boxes[6] = new RowBox(1207, 450, 83, 21);
-  boxes[7] = new ColumnBox(1041, 350, 19, 82);
-  boxes[8] = new ColumnBox(1124, 350, 19, 82);
-  boxes[9] = new RowBox(1083, 300, 83, 21);
-  boxes[10] = new ColumnBox(1207, 350, 19, 82);
-  boxes[11] = new RowBox(1166, 300, 83, 21);
+
+  boxes.push(new ColumnBox(1000, 600, 19, 82));
+  boxes.push(new ColumnBox(1082, 600, 19, 82));
+  boxes.push(new ColumnBox(1166, 600, 19, 82));
+  boxes.push(new ColumnBox(1249, 600, 19, 82));
+  boxes.push(new RowBox(1041, 550, 83, 21));
+  boxes.push(new RowBox(1207, 550, 83, 21));
+  boxes.push(new ColumnBox(1021, 450, 19, 82));
+  boxes.push(new ColumnBox(1063, 450, 19, 82));
+  boxes.push(new RowBox(1041, 400, 83, 21));
+  boxes.push(new ColumnBox(1187, 450, 19, 82));
+  boxes.push(new ColumnBox(1229, 450, 19, 82));
+  boxes.push(new RowBox(1207, 400, 83, 21));
+
+}
+
+function level2(){
+  if (bird != undefined) {
+    World.remove(world, bird.body);
+  }
+  bird = new Bird(250, 575, 25);
+  slingshot = new Slingshot(250, 575, bird.body);
+
+  boxes.push(new ColumnBox(1000, 500, 19, 82));
+  boxes.push(new ColumnBox(1083, 500, 19, 82));
+  boxes.push(new RowBox(1041, 450, 83, 21));
+  boxes.push(new ColumnBox(1166, 500, 19, 82));
+  boxes.push(new ColumnBox(1249, 500, 19, 82));
+  boxes.push(new RowBox(1124, 450, 83, 21));
+  boxes.push(new RowBox(1207, 450, 83, 21));
+  boxes.push(new ColumnBox(1041, 350, 19, 82));
+  boxes.push(new ColumnBox(1124, 350, 19, 82));
+  boxes.push(new RowBox(1083, 300, 83, 21));
+  boxes.push( new ColumnBox(1207, 350, 19, 82));
+  boxes.push( new RowBox(1166, 300, 83, 21));
+  
+}
+
+function level3(){
+  if (bird != undefined) {
+    World.remove(world, bird.body);
+  }
+  bird = new Bird(250, 575, 25);
+  slingshot = new Slingshot(250, 575, bird.body);
+
+  boxes.push(new ColumnBox(1010, 500, 19, 82));
+  boxes.push(new ColumnBox(1083, 500, 19, 82));
+  boxes.push(new ColumnBox(1166, 500, 19, 82));
+  boxes.push(new ColumnBox(1239, 500, 19, 82));  
+  boxes.push(new RowBox(1041, 450, 83, 21));
+  boxes.push(new RowBox(1124, 450, 83, 21));
+  boxes.push(new RowBox(1207, 450, 83, 21));  
+  boxes.push(new RowBox(1041, 430, 83, 21));
+  boxes.push(new RowBox(1124, 430, 83, 21));
+  boxes.push(new RowBox(1207, 430, 83, 21));
+  boxes.push(new ColumnBox(1010, 380, 19, 82));
+  boxes.push(new ColumnBox(1083, 380, 19, 82));
+  boxes.push(new ColumnBox(1166, 380, 19, 82));
+  boxes.push(new ColumnBox(1239, 380, 19, 82));  
+  boxes.push(new RowBox(1041, 300, 83, 21));
+  boxes.push(new RowBox(1124, 300, 83, 21));
+  boxes.push(new RowBox(1207, 300, 83, 21));
+  // boxes.push(new RowBox(1041, 280, 83, 21));
+  // boxes.push(new RowBox(1124, 280, 83, 21));
+  // boxes.push(new RowBox(1207, 280, 83, 21));
+  
 }
 
 function keyPressed() {
@@ -105,6 +159,7 @@ function mouseReleased() {
     setTimeout(() => {
       slingshot.fly();
     }, 80)
+    ReleasedTime=minute()*60+second()
   }
 }
 
@@ -116,27 +171,33 @@ function mousePressed() {
     }
   }
   if (mode == 1) {
-    if (dist(mouseX, mouseY, 70, 100) < 50) {
+    if (dist(mouseX, mouseY, 70, 100) < 50) {//back
       mode = 0;
     }
-    if (mouseX > 150 && mouseY > 300 && mouseX < 377 && mouseY < 527 && Math.abs((second() - Second)) > 1) {
+    if (mouseX > 150 && mouseY > 300 && mouseX < 377 && mouseY < 527 && Math.abs((second() - Second)) > .5) {
       mode = 2;
       level1();
       Second = second(); //new game debug error
     }
-    if (mouseX > 650 && mouseY > 300 && mouseX < 877 && mouseY < 527 && Math.abs((second() - Second)) > 1) {
+    if (mouseX > 650 && mouseY > 300 && mouseX < 877 && mouseY < 527 && Math.abs((second() - Second)) > .5) {
       mode = 2;
+      level2()
       Second = second(); //new game debug error
     }
-    if (mouseX > 1150 && mouseY > 300 && mouseX < 1377 && mouseY < 527 && Math.abs((second() - Second)) > 1) {
+    if (mouseX > 1150 && mouseY > 300 && mouseX < 1377 && mouseY < 527 && Math.abs((second() - Second)) > .5) {
       mode = 2;
+      level3();
       Second = second(); //new game debug error
     }
   }
-  
+
   if (mode == 2) {
-    if (dist(mouseX, mouseY, 70, 100) < 50) {
+    if (dist(mouseX, mouseY, 70, 100) < 50) {//back
       mode = 1;
+      for (let i = 0; i < boxes.length; i++) {
+        World.remove(world, boxes[i].body);
+      }
+      boxes=[]
       Second = second(); //new game debug error
     }
   }
@@ -173,7 +234,6 @@ function draw0() {
     }
 
   }
-  console.log(birds.length)
   image(playImg, 650, 375, 203, 100); //w/h ratio 2.03
 
 }
@@ -188,6 +248,10 @@ function draw1() {
 
 function draw2() {
   background(backgroundImg);
+  if (minute()*60+second() - ReleasedTime>5){
+    ReleasedTime=Number.MAX_VALUE
+    keyPressed()
+  }
   Matter.Engine.update(engine);
   ground.show();
   for (let i = 0; i < boxes.length; i++) {
@@ -199,4 +263,5 @@ function draw2() {
   image(slingImg2, 230, 560, 28.125, 78.125);
   slingshot.show();
   image(backImg, 20, 50, 100, 100)
+  
 }
